@@ -1,8 +1,8 @@
+'use strict';
 
+import queryString from "../../libs/querystring/querystring.js";
 
-const request = (url, options) => {
-
-
+const request = async (url, options) => {
   try {
     const requestOptions = {
       ...options,
@@ -12,22 +12,25 @@ const request = (url, options) => {
     };
 
     const response = await fetch(url, requestOptions);
-
     if (response.status >= 200 && response.status < 300) {
       // response.json().then(data => console.log(data));
       return response.json();
     }
-
+    console.log(response);
     // Handle Error
     const error = new Error(response.status);
     throw error;
   } catch (error) {
     throw error;
-
   }
 };
 
-const get = (url, params) => request(url, { method: 'GET' });
+const get = (url, params) => {
+  const paramsString = params ? `?${queryString.stringify(params)}` : '';
+  const requestUrl = `${url}${paramsString}`;
+
+  return request(requestUrl, { method: 'GET' });
+};
 
 const post = (url, body) => request(url, { body: JSON.stringify(body), method: 'POST' });
 

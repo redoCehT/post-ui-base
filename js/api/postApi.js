@@ -1,18 +1,14 @@
 import fetchClient from './fetchClient.js';
 import AppConstants from '../appConstants.js';
 
-// Simpleton
-
-
-
-class postApi {
+class PostApi {
   getResourceName() {
     return 'posts';
   }
 
-  getAll() {
+  getAll(params = { _page: AppConstants.DEFAULT_PAGE, _limit: AppConstants.DEFAULT_LIMIT }) {
     const url = `${AppConstants.API_URL}/${this.getResourceName()}`;
-    return fetchClient.get(url);
+    return fetchClient.get(url, params);
   }
 
   getDetail(id) {
@@ -26,7 +22,7 @@ class postApi {
   }
 
   update(post) {
-    const url = `${AppConstants.API_URL}/${this.getResourceName()}/${id}`;
+    const url = `${AppConstants.API_URL}/${this.getResourceName()}/${post.id}`;
     return fetchClient.patch(url, post);
   }
 

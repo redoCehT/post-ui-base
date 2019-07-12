@@ -24,6 +24,33 @@ const formatDate = (dateString) => {
   return `${hour}:${minute} ${day}/${month}/${year}`;
 };
 
+const setNewSizeToPicsumUrl = (imageUrl, length, width) => {
+  const urlFragmentArray = imageUrl.split('/');
+  if (urlFragmentArray) {
+    // Delete 2 last item in the array
+    const urlFragmentArrayDel2Last = urlFragmentArray.filter((_, i, arr) => i < arr.length - 2);
+    // Push 2 new item to the array
+    const newUrlFragmentArray = [...urlFragmentArrayDel2Last, length, width];
+    return newUrlFragmentArray.join('/');
+  }
+};
+
+const setImageUrlSrcByElementInNode = (node, elementId, imageUrl) => {
+  const element = node.querySelector(elementId);
+  if (element) {
+    element.src = imageUrl || AppConstants.DEFAULT_IMAGE_URL;
+    element.removeAttribute('id');
+  }
+}
+
+const setTextByElementIdInNode = (node, elementId, text) => {
+  const element = node.querySelector(elementId);
+  if (element) {
+    element.innerText = text;
+    element.removeAttribute('id');
+  }
+};
+
 const setTextByElementId = (elementId, text) => {
   const element = document.getElementById(elementId);
   if (element) {
@@ -50,7 +77,7 @@ const setBackgroundImageByElementId = (elementId, imageUrl) => {
   if (element) {
     element.style.backgroundImage = `url(${imageUrl || AppConstants.DEFAULT_IMAGE_URL})`;
   }
-}
+};
 
 const getBackgroundImageByElementId = (elementId) => {
   const element = document.getElementById(elementId);
@@ -60,7 +87,7 @@ const getBackgroundImageByElementId = (elementId) => {
     const lastDoubleQuotePosition = url.lastIndexOf("\"");
     return url.substring(firstDoubleQuotePosition + 1, lastDoubleQuotePosition);
   }
-}
+};
 
 const addClassByElementId = (elementId, classList) => {
   const element = document.getElementById(elementId);
@@ -76,9 +103,14 @@ const removeClassByElementId = (elementId, classList) => {
   }
 };
 
+const randomNumber = (min, max) => min + Math.trunc(Math.random() * (max - min));
+
 const utils = {
   truncateTextlength,
   formatDate,
+  setNewSizeToPicsumUrl,
+  setImageUrlSrcByElementInNode,
+  setTextByElementIdInNode,
   setTextByElementId,
   setValueByElementId,
   getValueByElementId,
@@ -86,5 +118,6 @@ const utils = {
   getBackgroundImageByElementId,
   addClassByElementId,
   removeClassByElementId,
+  randomNumber,
 };
 export default utils;

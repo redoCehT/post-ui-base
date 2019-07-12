@@ -5,9 +5,8 @@ import AppConstants from '../appConstants.js';
 
 
 
-class postApi {
+class baseApi {
   getResourceName() {
-    return 'posts';
   }
 
   getAll() {
